@@ -1,6 +1,6 @@
 ## Shellpocket
 
-<img style="filter: invert(1)" src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/terminal.svg" width="30" height="12"> Bring reverse shells with you.
+<img style="filter: invert(1)" src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/terminal.svg" width="30" height="12"> Quickly generate reverse shells from predefined templates for use in pentesting.
 
 ## Setting up
 
