@@ -8,7 +8,7 @@
 2. Run `pip install -r requirements` to install dependencies
 3. Run `./shellpocket.py -h`
 
-## To do:
+## To do
  - [x] Load shells from a file
  - [x] Send from choice menu to stdin
  - [x] Replace url,port via args
@@ -17,5 +17,5 @@
  - [ ] Local DB support
  - [ ] Support adding/deleting/updating shells using the menu
 
-## Thanks:
+## Thanks
  - To MrPineMan for [Awesome-Reverse-Shell](https://github.com/MrPineMan/Awesome-Reverse-Shell) collection
