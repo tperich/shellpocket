@@ -1,0 +1,8 @@
+# ENV
+.venv/
+venv/
+virtualenv/
+
+# Editors
+.vscode/
+.swp
