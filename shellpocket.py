@@ -50,7 +50,7 @@ def pick_a_shell(shells: list) -> str:
     if type(choice_index) != int: return
 
     choice = pretty_shells[choice_index]
-    chosen_shell = re.findall("\].*", choice)[0].strip("] ")
+    chosen_shell = re.findall("\].*", choice)[0].strip("] ").replace("\\", "")
     return chosen_shell
 
 
