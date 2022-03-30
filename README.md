@@ -8,6 +8,8 @@
 2. Run `pip install -r requirements` to install dependencies
 3. Run `./shellpocket.py -h`
 
+NOTE: You can add your own shells in [/shells.py](/shells.yml)
+
 ## To do
  - [x] Load shells from a file
  - [x] Send from choice menu to stdin
